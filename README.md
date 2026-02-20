@@ -1,2 +1,2 @@
-\# HU projects
+# HU projects
 
