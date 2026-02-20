@@ -1,0 +1,6 @@
+print(f"{5} = {5} = {int}")
+print(f"{5.0} = {5.0} = {float}")
+print(f"5%2 = {5%2} = {int}")
+print(f"5>1 = {5>1} = {bool}")
+print(f"'5' = {'5'} = {str}")
+print(f"5*2 = {5*2} = {int}")
