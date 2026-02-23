@@ -5,6 +5,9 @@ def GuessNumber():
     attemptRange = 5, 7, 10
     won = False
 
+    naam = input('Enter your name: ')
+    print(f'thank you for choosing the number guessing game {naam}')
+
     while True:
         difficulty = input('choose difficulty: 1 easy, 2 medium, 3 hard')
         try:
@@ -45,6 +48,7 @@ def GuessNumber():
                 print('lower')
             else:
                 print('higher')
+        print(f'you have {maxAttempts - attempts} remaining attempts')
 
     if won:
         print('you guessed the hidden number!!!')
