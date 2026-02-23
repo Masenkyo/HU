@@ -1,0 +1,10 @@
+Internet Provider: KPN
+Type verbinding: Glasvezel
+Modem/router: KPN Box 12 + netgear router
+Aansluiting laptop: wifi
+Aansluiting desktop: ethernet
+Snelheid: 1gigabits/s
+snelheid veranderd niet, ping wel.
+ik laat niks met ip adressen zien
+maar ik weet hoe ik ipconfig moet gebruiken, ik heb het vaak moeten gebruiken in het verleden.
+Apparatuur: printer, laptops, tv zit om andere verbinding (ziggo), gaming pc, telefonen.
