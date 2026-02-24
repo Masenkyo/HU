@@ -1,5 +1,22 @@
 import random
 
+def Score(difficulty, attempts, maxAttempts):
+    return (maxAttempts - attempts) * difficulty
+
+def DifficultyAdvice(score, difficulty, maxAttempts, won):
+    if not won:
+        return 'try something easier' if difficulty > 1 else 'try again'
+
+    performance = score / (difficulty * maxAttempts)
+
+    if performance >= 0.8:
+        return 'try something harder' if difficulty < 3 else 'you have conquered the highest level possible, good job..'
+    if performance >= 0.4:
+        return 'stay on this lvl :p'
+    else:
+        return 'try something easier' if difficulty > 1 else 'lock in :['
+
+
 def GuessNumber():
     guessRange = 10, 50, 100
     attemptRange = 5, 7, 10
@@ -25,6 +42,7 @@ def GuessNumber():
     attempts = 0
 
     while attempts < maxAttempts:
+        print(f'{maxAttempts - attempts} remaining attempts and current score is {Score(difficulty, attempts, maxAttempts)}')
         guessInput = input(f'guess a number between 1 and {currentGuessRange}: ')
         try:
             guess = int(guessInput)
@@ -48,12 +66,13 @@ def GuessNumber():
                 print('lower')
             else:
                 print('higher')
-        print(f'you have {maxAttempts - attempts} remaining attempts')
 
     if won:
         print('you guessed the hidden number!!!')
     else:
         print('you lost lol bwuhaahwah')
+
+    print(DifficultyAdvice(Score(difficulty, attempts, maxAttempts), difficulty, maxAttempts, won))
 
     again = input('do you want to play again? (y/n)')
     if again == 'y':
