@@ -23,10 +23,12 @@ def GuessNumber():
     won = False
 
     naam = input('Enter your name: ')
+    if not naam: return
     print(f'thank you for choosing the number guessing game {naam}')
 
     while True:
         difficulty = input('choose difficulty: 1 easy, 2 medium, 3 hard')
+        if not difficulty: return
         try:
             difficulty = int(difficulty)
             if difficulty not in [1, 2, 3]:
@@ -44,6 +46,7 @@ def GuessNumber():
     while attempts < maxAttempts:
         print(f'{maxAttempts - attempts} remaining attempts and current score is {Score(difficulty, attempts, maxAttempts)}')
         guessInput = input(f'guess a number between 1 and {currentGuessRange}: ')
+        if not guessInput: return
         try:
             guess = int(guessInput)
             if not (1 <= guess <= currentGuessRange):
@@ -61,7 +64,7 @@ def GuessNumber():
         else:
             isItNear = abs(guess - randomNumber)
             if isItNear <= difficulty:
-                print('you are near the random number')
+                print('near')
             elif guess > randomNumber:
                 print('lower')
             else:
