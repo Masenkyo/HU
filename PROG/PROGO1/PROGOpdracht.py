@@ -15,6 +15,10 @@
 def basisBezorgkosten(afstandKM):
     return 4.50 + (afstandKM - 10) * 0.25 if afstandKM > 10 and afstandKM <= 30 else -1 if afstandKM > 30 else 4.50
 
+#region definitieveBezorgkosten comments
+# checken voor -1 en dan checken voor gevraagde dingen in opdracht zoals korting voor zakelijk als het 5 of meer km ervan vandaan is.
+# korting door * 0.8 of 0.9 te doen en spoed toeslag toevoegen bij normale klanten en anders gewoon normale prijs.
+#endregion
 def definitieveBezorgkosten(klantType, spoed, afstandKM):
     basisKost = basisBezorgkosten(afstandKM)
     if basisKost == -1:
@@ -28,21 +32,29 @@ def definitieveBezorgkosten(klantType, spoed, afstandKM):
         return basisKost + 3
     else: return basisKost
 
-
-# still need to fix decimals being .00000000003 and .245 need to round up from 5 otherwise down and make console better to look at.
+#region testBezorgFunctiesOld functie + info over nieuwe functie
+# het probleem met deze versie is dat ik 0.0000000000003 kreeg op sommige en dat de console cluttered en lelijk was.
+# def testBezorgFuncties():
+#     types = 'normaal', 'zakelijk', 'spoedig'
+#     distances = -5, -4, 0, 4, 5, 10, 11, 30, 31
+#     spoedig = True, False
+#     for klantType in types:
+#         print('klantType =', klantType)
+#         for spoed in spoedig:
+#             print('spoedig =', spoed)
+#             for afstandKM in distances:
+#                 print('afstandKM =', afstandKM)
+#                 print(definitieveBezorgkosten(klantType, spoed, afstandKM))
+# adding rounding up and better console readability using formula i found somewhere and adding :.2f at the end for letting them end on 2 decimals.
+# also using :< and :> to add spaces to the prints so i can read console normally without making my eyes hurt... idk why i wrote this part in english but idc...
+#endregion
 def testBezorgFuncties():
-    types = 'normaal', 'zakelijk', 'spoedig'
-    distances = -5, -4, 0, 4, 5, 10, 11, 30, 31
-    spoedig = True, False
-    for klantType in types:
-        print('klantType =', klantType)
-        for afstandKM in distances:
-            print('afstandKM =', afstandKM)
-            for spoed in spoedig:
-                print('spoedig =', spoed)
-                print(definitieveBezorgkosten(klantType, spoed, afstandKM))
+    print(f'klantType | spoed | afstandKM | prijs')
+    print('-' * 40)
+    for klantType in 'normaal', 'zakelijk', 'spoedig':
+        for spoed in (False, True):
+            for afstandKM in -5, -4, 0, 4, 5, 10, 11, 30, 31:
+                display = f'{int(definitieveBezorgkosten(klantType, spoed, afstandKM) * 100 + 0.5) / 100.0:.2f}'
+                print(f"{klantType:<9} | {str(spoed):<5} | {afstandKM:>7}km | {display:>5}")
 
 testBezorgFuncties()
-
-
-print(definitieveBezorgkosten('normaal', True, 24))
