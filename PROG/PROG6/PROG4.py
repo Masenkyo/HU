@@ -1,6 +1,6 @@
-def summing(guess):
+def summing(guess = [1]):
     while guess[-1] != 0:
         guess.append(int(input('Choose a number: ')))
-    return [sum(guess) - 1]
+    return sum(guess) - 1
 
-print(summing([1]))
+print(summing())
