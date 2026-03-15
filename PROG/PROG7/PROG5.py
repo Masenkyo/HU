@@ -1,4 +1,5 @@
-from json import dump
+import json
+from os import path
 
 jsonFile = 'overheidInfo.json'
 
@@ -7,16 +8,29 @@ while True:
     if naam == '':
         break
 
-    voorl = input("Wat zijn je voorletters? ")
-    gbdatum = input("Wat is je geboortedatum? ")
+    voorletters = input("Wat zijn je voorletters? ")
+    geboortedatum = input("Wat is je geboortedatum? ")
     email = input("Wat is je e-mail adres? ")
 
     info = {
         "naam": naam,
-        "voorletters": voorl,
-        "geb_datum": gbdatum,
+        "voorletters": voorletters,
+        "geb_datum": geboortedatum,
         "e-mail": email
     }
 
-    with open(jsonFile, 'a') as f:
-        dump(info, f, indent=4)
+    if path.exists(jsonFile):
+        with open(jsonFile, 'r') as file:
+            try:
+                data = json.load(file)
+                if not isinstance(data, list):
+                    data = [data] if data else []
+            except json.JSONDecodeError:
+                data = []
+    else:
+        data = []
+
+    data.append(info)
+
+    with open(jsonFile, 'w') as file:
+        json.dump(data, file, indent=4)
