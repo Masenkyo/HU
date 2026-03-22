@@ -1,40 +1,136 @@
 import random
-wordList = 'woordenlijst.txt'
+
 def main():
     keuze = input('1. Speel galgje\n2. Verwijder een woord uit de woordenlijst\n3. Voeg woord toe aan de woordenlijst\n4. Toon aantal woorden in de woordenlijst\n5. Stoppen\n')
     match keuze:
         case '1':
             speelSessie()
-            main()
         case '2':
-            print('')
+            bestandsNaam = "woordenlijst.txt"
+            woordenDictionary = leesWoord(bestandsNaam)
+            verwijderWoord = input("verwijder woord: ").lower().strip()
+            if verwijderWoord in woordenDictionary:
+                del woordenDictionary[verwijderWoord]
+                slaWoordenOp(bestandsNaam, woordenDictionary)
+                print(f"woord '{verwijderWoord}' is verwijderd.")
+            else:
+                print("Dit woord staat niet in de lijst.")
         case '3':
-            addWord()
+            bestandsNaam = "woordenlijst.txt"
+            woordenDictionary = leesWoord(bestandsNaam)
+            nieuwWoord = input("voeg woord toe: ").lower()
+            if nieuwWoord not in woordenDictionary:
+                woordenDictionary[nieuwWoord] = None
+                slaWoordenOp(bestandsNaam, woordenDictionary)
+                print(nieuwWoord, "is toegevoegt!")
+            else:
+                print("dat woord bestaat al in de woordenlijst")
             main()
         case '4':
-            print('')
+            print('aantal woorden in woordenlijst: ', len(leesWoord("woordenlijst.txt")))
+            main()
         case '5':
-            print('')
+            print('doeg')
+
+def leesWoord(bestandsnaam):
+    woordenDictionary = {}
+    with open(bestandsnaam, 'r') as file:
+        for woorden in file:
+            woord = woorden.strip()
+            if woord:
+                lengte = len(woord)
+                if lengte <= 6:
+                    moeilijkheid = 1
+                elif lengte <= 11:
+                    moeilijkheid = 2
+                else:
+                    moeilijkheid = 3
+                woordenDictionary[woord] = moeilijkheid
+    return woordenDictionary
 
 def kiesWoord(woordenDict, moeilijkheidsgrade):
+    return random.choice([woord for woord, moeilijkheid in woordenDict.items() if moeilijkheid == moeilijkheidsgrade])
+
+def toonTussenstand(woord, guessedWords):
     result = []
-    with open(wordList, 'r') as woorden:
-        for woord in woorden.readlines():
-            woord.strip()
-            result.append(woord)
-        gekozenWoord = result[random.randint(0, len(result)-1)]
-        print(len(result)-1)
-    return
+    for letter in woord:
+        if letter in guessedWords:
+            result.append(letter.upper())
+        else:
+            result.append("_")
+
+    tussenstand = " ".join(result)
+    print(tussenstand)
+    return tussenstand
+
+def berekenScore(aantalLevensOver, moeilijkheid):
+    return aantalLevensOver * moeilijkheid
+
+def voegScoreToe(naam, woord, score):
+    with open("scores.txt", "a") as f:
+        f.write(f"naam: {naam} | woord: {woord} | score: {score}\n")
 
 def speelSessie():
-    kiesWoord(1, input('moeilijkheidsgrade (1 easy, 2 medium, 3 hard): '))
-    attempts = 10
+    naam = input("naam: ")
+    try:
+        moeilijkheid = int(input('moeilijkheidsgrade (1 easy, 2 medium, 3 hard): '))
+    except ValueError:
+        print('je voerde geen 1, 2 of 3 in, moeilijkheid woord easy')
+        moeilijkheid = 1
 
-    return
+    woord = kiesWoord(leesWoord("woordenlijst.txt"), moeilijkheid)
 
-def addWord():
-    with open(wordList, 'a') as woorden:
-        woorden.write(f'{input('Voeg woord toe: ')}\n') and print('New word has been added!')
+    if not woord:
+        print("er zijn geen woorden voor deze difficulty, voeg woorden toe aan de woordenlijst")
+        return
+
+    attempts = 0
+    levens = {1:10, 2:8, 3:6}.get(moeilijkheid)
+    guessedLetters = set()
+    wrongLetters = set()
+    woordLetters = set(woord)
+
+    toonTussenstand(woord, guessedLetters)
+    while levens > 0:
+        guess = input('kies een letter: ').lower()
+
+        if not guess:
+            return
+
+        if len(guess) > 1:
+            print("voer aub 1 letter in")
+            continue
+
+        if guess in guessedLetters or guess in wrongLetters:
+            print(f"je hebt de letter {guess} al een keer ingevoerd")
+            continue
+
+        attempts += 1
+        if guess in woordLetters:
+            guessedLetters.add(guess)
+            print(f"{guess} zit in het woord!")
+            toonTussenstand(woord, guessedLetters)
+
+            if guessedLetters == woordLetters:
+                score = berekenScore(levens, moeilijkheid)
+                print(f"you guessed the word! {woord}\npogingen: {attempts}\nlevens: {levens}\nscore: {score}")
+                voegScoreToe(naam, woord, score)
+                return
+        else:
+            wrongLetters.add(guess)
+            levens -= 1
+            toonTussenstand(woord, guessedLetters)
+            print(f"{guess} zit niet in het woord...\nlevens: {levens} | foute letters: {', '.join(wrongLetters)}")
+
+#region comments
+# als ik niet deze parameters hoefde toe te voegen was deze script echt 10 lijnen korter bruh
+# ook staat er dat ik de volledige woordenlijst terug naar het bestand moet schrijven, dus ik moet letterlijk elk woord opnieuw
+# erin zetten met write inplaats van append :sob:
+#regionend
+def slaWoordenOp(bestandsnaam, woordenDictionary):
+    with open(bestandsnaam, 'w') as woorden:
+        for woord in woordenDictionary:
+            woorden.write(f'{woord}\n')
 
 
 
