@@ -70,18 +70,19 @@ def GuessNumber():
             else:
                 print('higher')
 
-    if won:
-        print('you guessed the hidden number!!!')
-    else:
-        print('you lost lol bwuhaahwah')
+    match won:
+        case True:
+            print("you guessed the hidden number!!!")
+        case _:
+            print("you lost lol bwuahaahwah")
 
     print(DifficultyAdvice(Score(difficulty, attempts, maxAttempts), difficulty, maxAttempts, won))
 
-    again = input('do you want to play again? (y/n)')
-    if again == 'y':
-        GuessNumber()
-    else:
-        print('ok bye')
+    match input("do you want to play again (y/n): "):
+        case 'y':
+            GuessNumber()
+        case _:
+            print("ok bye")
 
 if __name__ == '__main__':
     GuessNumber()

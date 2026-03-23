@@ -1,6 +1,6 @@
 import random
 
-def Main():
+def Choose():
     keuze = input('1. Speel galgje\n2. Verwijder een woord uit de woordenlijst\n3. Voeg woord toe aan de woordenlijst\n4. Toon aantal woorden in de woordenlijst\n5. Stoppen\n')
     match keuze:
         case '1':
@@ -25,10 +25,10 @@ def Main():
                 print(nieuwWoord, "is toegevoegt!")
             else:
                 print("dat woord bestaat al in de woordenlijst")
-            Main()
+            Choose()
         case '4':
             print('aantal woorden in woordenlijst: ', len(LeesWoord("woordenlijst.txt")))
-            Main()
+            Choose()
         case '5':
             print('doeg')
 
@@ -115,12 +115,14 @@ def SpeelSessie():
                 score = BerekenScore(levens, moeilijkheid)
                 print(f"you guessed the word! {woord}\npogingen: {attempts}\nlevens: {levens}\nscore: {score}")
                 VoegScoreToe(naam, woord, score)
+                [SpeelSessie() if input("play again? (y/n): ") == 'y' else print("tot ziens!") and quit()]
                 return
         else:
             wrongLetters.add(guess)
             levens -= 1
             ToonTussenstand(woord, guessedLetters)
             print(f"{guess} zit niet in het woord...\nlevens: {levens} | foute letters: {', '.join(wrongLetters)}")
+    [SpeelSessie() if input("play again? (y/n): ") == 'y' else print("tot ziens!") and quit()]
 
 #region comments
 # als ik niet deze parameters hoefde toe te voegen was deze script echt 10 lijnen korter bruh
@@ -132,10 +134,5 @@ def SlaWoordenOp(bestandsnaam, woordenDictionary):
         for woord in woordenDictionary:
             woorden.write(f'{woord}\n')
 
-
-
-
-
-
 if __name__ == '__main__':
-    Main()
+    Choose()
