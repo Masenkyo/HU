@@ -1,38 +1,38 @@
 import random
 
-def main():
+def Main():
     keuze = input('1. Speel galgje\n2. Verwijder een woord uit de woordenlijst\n3. Voeg woord toe aan de woordenlijst\n4. Toon aantal woorden in de woordenlijst\n5. Stoppen\n')
     match keuze:
         case '1':
-            speelSessie()
+            SpeelSessie()
         case '2':
             bestandsNaam = "woordenlijst.txt"
-            woordenDictionary = leesWoord(bestandsNaam)
+            woordenDictionary = LeesWoord(bestandsNaam)
             verwijderWoord = input("verwijder woord: ").lower().strip()
             if verwijderWoord in woordenDictionary:
                 del woordenDictionary[verwijderWoord]
-                slaWoordenOp(bestandsNaam, woordenDictionary)
+                SlaWoordenOp(bestandsNaam, woordenDictionary)
                 print(f"woord '{verwijderWoord}' is verwijderd.")
             else:
                 print("Dit woord staat niet in de lijst.")
         case '3':
             bestandsNaam = "woordenlijst.txt"
-            woordenDictionary = leesWoord(bestandsNaam)
+            woordenDictionary = LeesWoord(bestandsNaam)
             nieuwWoord = input("voeg woord toe: ").lower()
             if nieuwWoord not in woordenDictionary:
                 woordenDictionary[nieuwWoord] = None
-                slaWoordenOp(bestandsNaam, woordenDictionary)
+                SlaWoordenOp(bestandsNaam, woordenDictionary)
                 print(nieuwWoord, "is toegevoegt!")
             else:
                 print("dat woord bestaat al in de woordenlijst")
-            main()
+            Main()
         case '4':
-            print('aantal woorden in woordenlijst: ', len(leesWoord("woordenlijst.txt")))
-            main()
+            print('aantal woorden in woordenlijst: ', len(LeesWoord("woordenlijst.txt")))
+            Main()
         case '5':
             print('doeg')
 
-def leesWoord(bestandsnaam):
+def LeesWoord(bestandsnaam):
     woordenDictionary = {}
     with open(bestandsnaam, 'r') as file:
         for woorden in file:
@@ -48,10 +48,10 @@ def leesWoord(bestandsnaam):
                 woordenDictionary[woord] = moeilijkheid
     return woordenDictionary
 
-def kiesWoord(woordenDict, moeilijkheidsgrade):
+def KiesWoord(woordenDict, moeilijkheidsgrade):
     return random.choice([woord for woord, moeilijkheid in woordenDict.items() if moeilijkheid == moeilijkheidsgrade])
 
-def toonTussenstand(woord, guessedWords):
+def ToonTussenstand(woord, guessedWords):
     result = []
     for letter in woord:
         if letter in guessedWords:
@@ -63,14 +63,14 @@ def toonTussenstand(woord, guessedWords):
     print(tussenstand)
     return tussenstand
 
-def berekenScore(aantalLevensOver, moeilijkheid):
+def BerekenScore(aantalLevensOver, moeilijkheid):
     return aantalLevensOver * moeilijkheid
 
-def voegScoreToe(naam, woord, score):
+def VoegScoreToe(naam, woord, score):
     with open("scores.txt", "a") as f:
         f.write(f"naam: {naam} | woord: {woord} | score: {score}\n")
 
-def speelSessie():
+def SpeelSessie():
     naam = input("naam: ")
     try:
         moeilijkheid = int(input('moeilijkheidsgrade (1 easy, 2 medium, 3 hard): '))
@@ -78,7 +78,7 @@ def speelSessie():
         print('je voerde geen 1, 2 of 3 in, moeilijkheid woord easy')
         moeilijkheid = 1
 
-    woord = kiesWoord(leesWoord("woordenlijst.txt"), moeilijkheid)
+    woord = KiesWoord(LeesWoord("woordenlijst.txt"), moeilijkheid)
 
     if not woord:
         print("er zijn geen woorden voor deze difficulty, voeg woorden toe aan de woordenlijst")
@@ -90,7 +90,7 @@ def speelSessie():
     wrongLetters = set()
     woordLetters = set(woord)
 
-    toonTussenstand(woord, guessedLetters)
+    ToonTussenstand(woord, guessedLetters)
     while levens > 0:
         guess = input('kies een letter: ').lower()
 
@@ -109,17 +109,17 @@ def speelSessie():
         if guess in woordLetters:
             guessedLetters.add(guess)
             print(f"{guess} zit in het woord!")
-            toonTussenstand(woord, guessedLetters)
+            ToonTussenstand(woord, guessedLetters)
 
             if guessedLetters == woordLetters:
-                score = berekenScore(levens, moeilijkheid)
+                score = BerekenScore(levens, moeilijkheid)
                 print(f"you guessed the word! {woord}\npogingen: {attempts}\nlevens: {levens}\nscore: {score}")
-                voegScoreToe(naam, woord, score)
+                VoegScoreToe(naam, woord, score)
                 return
         else:
             wrongLetters.add(guess)
             levens -= 1
-            toonTussenstand(woord, guessedLetters)
+            ToonTussenstand(woord, guessedLetters)
             print(f"{guess} zit niet in het woord...\nlevens: {levens} | foute letters: {', '.join(wrongLetters)}")
 
 #region comments
@@ -127,7 +127,7 @@ def speelSessie():
 # ook staat er dat ik de volledige woordenlijst terug naar het bestand moet schrijven, dus ik moet letterlijk elk woord opnieuw
 # erin zetten met write inplaats van append :sob:
 #regionend
-def slaWoordenOp(bestandsnaam, woordenDictionary):
+def SlaWoordenOp(bestandsnaam, woordenDictionary):
     with open(bestandsnaam, 'w') as woorden:
         for woord in woordenDictionary:
             woorden.write(f'{woord}\n')
@@ -138,4 +138,4 @@ def slaWoordenOp(bestandsnaam, woordenDictionary):
 
 
 if __name__ == '__main__':
-    main()
+    Main()

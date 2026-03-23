@@ -1,1 +1,2 @@
 naam: sil | woord: horse | score: 10
+naam: sil | woord: horse | score: 6

@@ -11,7 +11,7 @@ def DifficultyAdvice(score, difficulty, maxAttempts, won):
 
     if performance >= 0.8:
         return 'try something harder' if difficulty < 3 else 'you have conquered the highest level possible, good job..'
-    if performance >= 0.4:
+    elif performance >= 0.4:
         return 'stay on this lvl :p'
     else:
         return 'try something easier' if difficulty > 1 else 'lock in :['
