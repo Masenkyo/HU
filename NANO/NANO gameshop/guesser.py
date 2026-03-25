@@ -16,7 +16,6 @@ def DifficultyAdvice(score, difficulty, maxAttempts, won):
     else:
         return 'try something easier' if difficulty > 1 else 'lock in :['
 
-
 def GuessNumber():
     guessRange = 10, 50, 100
     attemptRange = 5, 7, 10

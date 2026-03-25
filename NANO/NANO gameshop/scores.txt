@@ -1,10 +1,1 @@
-naam: sil | woord: horse | score: 10
-naam: sil | woord: horse | score: 6
-naam: yo | woord: horse | score: 10
-naam: go | woord: zombie | score: 10
-naam: asd | woord: annapaulowna | score: 18
-naam: sil | woord: joebiden | score: 6
 naam: sil | woord: annapaulowna | score: 18
-naam: sil | woord: annapaulowna | score: 18
-naam: sil | woord: jeffryepstein | score: 12
-naam: 1 | woord: obama | score: 6

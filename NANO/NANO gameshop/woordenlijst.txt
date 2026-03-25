@@ -2,7 +2,7 @@ monkey
 horse
 annapaulowna
 obama
-steelballrub
+steelballrun
 hero
 sigma
 joebiden
@@ -11,3 +11,4 @@ jeffryepstein
 chud
 chudbot
 zombie
+zebra

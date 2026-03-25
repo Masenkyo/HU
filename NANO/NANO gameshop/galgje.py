@@ -1,12 +1,30 @@
 import random
+import os
+
 
 def Choose():
+    bestandsNaam = "woordenlijst.txt"
+    #region checkForFile
+    # deze code staat hier om errors te voorkomen voor als er geen tekst bestand bestaat.
+    if not os.path.exists(bestandsNaam):
+        print(f"bestand bestaat niet")
+        with open(bestandsNaam, 'w') as f:
+            pass
+        woordenDictionary = LeesWoord(bestandsNaam)
+        nieuwWoord = input("voeg woord toe: ").lower()
+        if nieuwWoord not in woordenDictionary:
+            woordenDictionary[nieuwWoord] = None
+            SlaWoordenOp(bestandsNaam, woordenDictionary)
+            print(nieuwWoord, "is toegevoegt!")
+        else:
+            print("dat woord bestaat al in de woordenlijst")
+        Choose()
+    #endregion
     keuze = input('1. Speel galgje\n2. Verwijder een woord uit de woordenlijst\n3. Voeg woord toe aan de woordenlijst\n4. Toon aantal woorden in de woordenlijst\n5. Stoppen\n')
     match keuze:
         case '1':
             SpeelSessie()
         case '2':
-            bestandsNaam = "woordenlijst.txt"
             woordenDictionary = LeesWoord(bestandsNaam)
             verwijderWoord = input("verwijder woord: ").lower().strip()
             if verwijderWoord in woordenDictionary:
@@ -15,8 +33,8 @@ def Choose():
                 print(f"woord '{verwijderWoord}' is verwijderd.")
             else:
                 print("Dit woord staat niet in de lijst.")
+            Choose()
         case '3':
-            bestandsNaam = "woordenlijst.txt"
             woordenDictionary = LeesWoord(bestandsNaam)
             nieuwWoord = input("voeg woord toe: ").lower()
             if nieuwWoord not in woordenDictionary:
@@ -78,11 +96,15 @@ def SpeelSessie():
         print('je voerde geen 1, 2 of 3 in, moeilijkheid woord easy')
         moeilijkheid = 1
 
-    woord = KiesWoord(LeesWoord("woordenlijst.txt"), moeilijkheid)
+    woordenDictionairy = LeesWoord("woordenlijst.txt")
 
-    if not woord:
-        print("er zijn geen woorden voor deze difficulty, voeg woorden toe aan de woordenlijst")
+    beschikbareWoorden = [w for w, m in woordenDictionairy.items() if m == moeilijkheid]
+
+    if not beschikbareWoorden:
+        print('er zijn geen woorden voor deze moeilijkheidsgrade, voeg woorden toe zodat je deze kan kiezen')
         return
+
+    woord = KiesWoord(woordenDictionairy, moeilijkheid)
 
     attempts = 0
     levens = {1:10, 2:8, 3:6}.get(moeilijkheid)
@@ -122,6 +144,8 @@ def SpeelSessie():
             levens -= 1
             ToonTussenstand(woord, guessedLetters)
             print(f"{guess} zit niet in het woord...\nlevens: {levens} | foute letters: {', '.join(wrongLetters)}")
+            if levens == 0:
+                print(f"het woord was {woord}")
     [SpeelSessie() if input("play again? (y/n): ") == 'y' else print("tot ziens!") and quit()]
 
 #region comments
