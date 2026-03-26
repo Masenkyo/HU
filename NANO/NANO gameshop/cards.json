@@ -1,0 +1,18 @@
+{
+  "ranks": [
+    {"name": "ace", "value": [1, 11], "count": 4},
+    {"name": "two", "value": 2, "count": 4},
+    {"name": "three", "value": 3, "count": 4},
+    {"name": "four", "value": 4, "count": 4},
+    {"name": "five", "value": 5, "count": 4},
+    {"name": "six", "value": 6, "count": 4},
+    {"name": "seven", "value": 7, "count": 4},
+    {"name": "eight", "value": 8, "count": 4},
+    {"name": "nine", "value": 9, "count": 4},
+    {"name": "ten", "value": 10, "count": 4},
+    {"name": "jack", "value": 10, "count": 4},
+    {"name": "queen", "value": 10, "count": 4},
+    {"name": "king", "value": 10, "count": 4}
+  ],
+  "suits": ["hearts", "diamonds", "clubs", "spades"]
+}

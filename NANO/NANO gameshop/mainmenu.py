@@ -4,6 +4,7 @@ from os import path
 from guesser import GuessNumber
 from galgje import Choose
 from weather import WeatherGuesser
+from blackjack import BlackJack
 
 jsonFile = 'accountInfo.json'
 
@@ -49,7 +50,7 @@ def LogIn():
     return AccountMenu()
 
 def AccountMenu():
-    choice = input("1. log in, 2. maak account aan")
+    choice = input("kies een optie (1. log in, 2. maak account aan): ")
     match choice:
         case '1':
             return LogIn()
@@ -57,7 +58,7 @@ def AccountMenu():
             return CreateAccount()
 
 def Menu():
-    game = input("kies je game (1. guesser, 2. galgje, 3. weatherguesser): ")
+    game = input("kies je game (1. guesser, 2. galgje, 3. weatherguesser, 4. blackjack): ")
     match game:
         case '1':
             GuessNumber()
@@ -65,6 +66,8 @@ def Menu():
             Choose()
         case '3':
             WeatherGuesser()
+        case '4':
+            BlackJack()
         case _:
             print("tot volgende keer!")
 

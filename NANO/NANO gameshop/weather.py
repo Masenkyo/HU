@@ -7,7 +7,6 @@ def info():
         try:
             userCity = input("Enter a city to get the weather: ")
 
-
             response = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={userCity}&appid={key}&units=metric")
             data = response.json()
 
@@ -19,6 +18,7 @@ def info():
     return temperature
 
 def WeatherGuesser():
+    levens = 5
     temperature = info()
     guess = -100
     while guess != temperature:
@@ -40,7 +40,12 @@ def WeatherGuesser():
         else:
             print('higher')
 
-    print('you won gg!')
+        levens -= 1
+
+        if levens == 0:
+            return print('you lost...')
+
+    return print('you won gg!')
 
 if __name__ == '__main__':
     WeatherGuesser()

@@ -1,7 +1,6 @@
 import random
 import os
 
-
 def Choose():
     bestandsNaam = "woordenlijst.txt"
     #region checkForFile
@@ -137,8 +136,7 @@ def SpeelSessie():
                 score = BerekenScore(levens, moeilijkheid)
                 print(f"you guessed the word! {woord}\npogingen: {attempts}\nlevens: {levens}\nscore: {score}")
                 VoegScoreToe(naam, woord, score)
-                [SpeelSessie() if input("play again? (y/n): ") == 'y' else print("tot ziens!") and quit()]
-                return
+                return [SpeelSessie() if input("play again? (y/n): ") == 'y' else print("tot ziens!") and quit()]
         else:
             wrongLetters.add(guess)
             levens -= 1
@@ -146,7 +144,8 @@ def SpeelSessie():
             print(f"{guess} zit niet in het woord...\nlevens: {levens} | foute letters: {', '.join(wrongLetters)}")
             if levens == 0:
                 print(f"het woord was {woord}")
-    [SpeelSessie() if input("play again? (y/n): ") == 'y' else print("tot ziens!") and quit()]
+
+    return [SpeelSessie() if input("play again? (y/n): ") == 'y' else print("tot ziens!") and quit()]
 
 #region comments
 # als ik niet deze parameters hoefde toe te voegen was deze script echt 10 lijnen korter bruh
