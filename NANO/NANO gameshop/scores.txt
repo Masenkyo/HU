@@ -1,1 +1,2 @@
 naam: sil | woord: annapaulowna | score: 18
+naam: sil | woord: zombie | score: 7
